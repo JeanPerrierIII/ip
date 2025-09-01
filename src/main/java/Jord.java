@@ -17,8 +17,8 @@ public class Jord {
     }
 
     public static void printTask(int index) {
-        System.out.println(TASKS[index].toString());
-        System.out.println("Total tasks: " + (index + 1));
+        System.out.println("    " + TASKS[index].toString());
+        System.out.println("    Total tasks: " + (index + 1));
     }
 
     public static void taskMarker(String[] input) {
@@ -39,7 +39,7 @@ public class Jord {
 
     public static void addTodo(String input) {
         TASKS[TASK_COUNT] = new Todo(input);
-        System.out.println("    added todo: ");
+        System.out.println("    added todo:");
         printTask(TASK_COUNT);
         TASK_COUNT++;
     }
@@ -49,7 +49,7 @@ public class Jord {
         String[] inputs = input.split("/from");
         String[] duration = inputs[1].split("/to");
         TASKS[TASK_COUNT] = new Event(inputs[0].trim(), duration[0].trim(), duration[1].trim());
-        System.out.println("    added task: ");
+        System.out.println("    added task:");
         printTask(TASK_COUNT);
         TASK_COUNT++;
     }
@@ -69,7 +69,7 @@ public class Jord {
     }
 
     public static void exitJord() {
-        System.out.println("    Bye, see you again!");
+        System.out.print("    Bye, see you again!");
         System.exit(0);
     }
 
@@ -101,7 +101,6 @@ public class Jord {
         }
     }
 
-
     public static void main(String[] args) {
         System.out.println("    Hello! I'm Jord\n    What can I do for you?");
         while (true) {
@@ -109,6 +108,4 @@ public class Jord {
             processInput(userInput);
         }
     }
-
-
 }

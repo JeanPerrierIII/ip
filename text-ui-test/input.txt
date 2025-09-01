@@ -1,0 +1,12 @@
+test task
+todo test todo
+deadline test deadline /by 4th June 2034
+event test event /from 31 January 2017 6:00 pm /to 30 February 2026 1:00 am
+list
+mark 1
+mark 3
+mark 4
+list
+unmark 3
+list
+bye
