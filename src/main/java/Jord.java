@@ -17,8 +17,8 @@ public class Jord {
     }
 
     public static void printTask(int index) {
-        System.out.println(TASKS[TASK_COUNT].toString());
-        System.out.println("Total tasks: " + (TASK_COUNT + 1));
+        System.out.println(TASKS[index].toString());
+        System.out.println("Total tasks: " + (index + 1));
     }
 
     public static void taskMarker(String[] input) {
