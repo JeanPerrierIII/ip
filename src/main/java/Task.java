@@ -10,7 +10,7 @@ public class Task {
         isMarked = marked;
     }
 
-    public void printStatus() {
-        System.out.println("[" + (isMarked ? "X] " : " ] ") + description);
+    public String toString() {
+        return ("[" + (isMarked ? "X] " : " ] ") + description);
     }
 }
