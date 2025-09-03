@@ -23,9 +23,11 @@ public class Jord {
 
     public static void taskMarker(String[] input) {
         int index = Integer.parseInt(input[1]) - 1;
-        TASKS[index].setMarked(!input[0].contains("un"));
-        System.out.println(input[0].contains("un") ? "    The following task has been marked incomplete"
-                : "    The following task has been marked complete");
+        boolean isMark = !input[0].contains("un");
+
+        TASKS[index].setMarked(isMark);
+        System.out.println(isMark ? "    The following task has been marked complete"
+                : "    The following task has been marked incomplete");
         System.out.print("    ");
         System.out.println(TASKS[index].toString());
     }
@@ -46,9 +48,10 @@ public class Jord {
 
     public static void addEvent(String input) {
         // parse input into description, from and to date
-        String[] inputs = input.split("/from");
-        String[] duration = inputs[1].split("/to");
-        TASKS[TASK_COUNT] = new Event(inputs[0].trim(), duration[0].trim(), duration[1].trim());
+        String[] splitInput = input.split("/from");
+        String[] duration = splitInput[1].split("/to");
+
+        TASKS[TASK_COUNT] = new Event(splitInput[0].trim(), duration[0].trim(), duration[1].trim());
         System.out.println("    added task:");
         printTask(TASK_COUNT);
         TASK_COUNT++;
@@ -73,8 +76,13 @@ public class Jord {
         System.exit(0);
     }
 
+    public static void unknownInput(String input) {
+        System.out.println("    Unknown command: " + input);
+    }
+
     private static void processInput(String[] input) {
-        switch (input[0]) {
+        String sanitisedInput = input[0].trim().toLowerCase();
+        switch (sanitisedInput) {
         case "list":
             listTasks();
             break;
@@ -96,7 +104,7 @@ public class Jord {
             addDeadline(input[1]); // incomplete
             break;
         default:
-            addTask(input);
+            unknownInput(sanitisedInput);
             break;
         }
     }
