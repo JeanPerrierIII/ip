@@ -32,13 +32,6 @@ public class Jord {
         System.out.println(TASKS[index].toString());
     }
 
-    public static void addTask(String[] input) {
-        String recombinedInput = input[0] + (input.length > 1 ? (" " + input[1]) : ""); // catch null condition
-        TASKS[TASK_COUNT] = new Task(recombinedInput);
-        printTask(TASK_COUNT);
-        TASK_COUNT++;
-    }
-
     public static void addTodo(String input) {
         TASKS[TASK_COUNT] = new Todo(input);
         System.out.println("    added todo:");
