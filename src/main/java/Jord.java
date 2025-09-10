@@ -15,6 +15,14 @@ public class Jord {
     private static final String MARKED_INCOMPLETE = "    The following task has been marked incomplete";
     private static final String MARK_CORRECT_USAGE = "mark/unmark <index of task>";
 
+    public static void printLogo() {
+        System.out.println("    ______  _______    _______   ______  \n" +
+                "   ╱      ╲╱       ╲╲╱╱       ╲_╱      ╲╲\n" +
+                "  ╱       ╱        ╱╱╱        ╱        ╱╱\n" +
+                "_╱      ╱╱         ╱        _╱         ╱ \n" +
+                "╲______╱╱╲________╱╲____╱___╱╲________╱  ");
+    }
+
     public static void printCorrectUsage(TaskType type) {
         System.out.print("    Correct usage: ");
         switch (type) {
@@ -221,6 +229,7 @@ public class Jord {
     }
 
     public static void main(String[] args) {
+        printLogo();
         System.out.println("    Hello! I'm Jord\n    What can I do for you?");
         while (true) {
             String[] userInput = getUserInput();
