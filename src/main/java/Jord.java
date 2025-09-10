@@ -8,6 +8,7 @@ public class Jord {
     private static int TASK_COUNT = 0;
     private static final Scanner SCANNER = new Scanner(System.in);
 
+    private static final String TASK_CORRECT_USAGE = "add <task description>";
     private static final String TODO_CORRECT_USAGE = "todo <description>";
     private static final String EVENT_CORRECT_USAGE = "event <description> /from <date 1> /to <date 2>";
     private static final String DEADLINE_CORRECT_USAGE = "deadline <description> /by <date>";
@@ -15,9 +16,13 @@ public class Jord {
     private static final String MARKED_INCOMPLETE = "    The following task has been marked incomplete";
     private static final String MARK_CORRECT_USAGE = "mark/unmark <index of task>";
 
+
     public static void printCorrectUsage(TaskType type) {
         System.out.print("    Correct usage: ");
         switch (type) {
+        case TASK:
+            System.out.println(TASK_CORRECT_USAGE);
+            break;
         case TODO:
             System.out.println(TODO_CORRECT_USAGE);
             break;
@@ -88,6 +93,25 @@ public class Jord {
                 : MARKED_INCOMPLETE);
         System.out.print("    ");
         System.out.println(TASKS[index].toString());
+    }
+
+    public static boolean isTaskInputValid(String[] input) {
+        if (input.length < 2 || input[1].trim().isEmpty()) {
+            System.out.println("    Error: missing task description");
+            return false;
+        }
+        return true;
+    }
+
+    public static void addTask(String[] input) {
+        if (!isTaskInputValid(input)) {
+            printCorrectUsage(TaskType.TASK);
+            return;
+        }
+        TASKS[TASK_COUNT] = new Task(input[1]);
+        System.out.println("    added task:");
+        printTask(TASK_COUNT);
+        TASK_COUNT++;
     }
 
 
@@ -204,6 +228,9 @@ public class Jord {
             break;
         case "bye":
             exitJord();
+            break;
+        case "add":
+            addTask(input);
             break;
         case "todo":
             addTodo(input); // incomplete
