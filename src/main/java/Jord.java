@@ -21,6 +21,8 @@ public class Jord {
     public static final String MARK_CORRECT_USAGE = "mark/unmark <index of task>";
     public static final String LIST_EMPTY_MESSAGE =
             "    No tasks have been added, use todo, event or deadline to add some";
+    public static final String DELETE_CORRECT_USAGE = "delete <index of task>";
+
 
 
     public static void printLogo() {
@@ -49,6 +51,8 @@ public class Jord {
         case MARK:
             System.out.println(MARK_CORRECT_USAGE);
             break;
+        case DELETE:
+            System.out.println(DELETE_CORRECT_USAGE);
         }
     }
 
@@ -214,6 +218,48 @@ public class Jord {
         }
     }
 
+    public static boolean isDeleteTaskInputValid(String[] input) {
+        if (input.length < 2 || input[1].trim().isEmpty() ) {
+            System.out.println("    Error: missing task index");
+            return false;
+        }
+        // task index is present, and not empty
+
+        try {
+            int i = Integer.parseInt(input[1]);
+        } catch (NumberFormatException e) {
+            // not an integer
+            System.out.println("    Error: index specified is not an integer");
+            return false;
+        }
+        // index specified is an integer
+        return true;
+    }
+
+    public static void deleteTask(String[] input) {
+        if (!isDeleteTaskInputValid(input)) {
+            printCorrectUsage(TaskType.DELETE);
+            return;
+        }
+
+        int index = Integer.parseInt(input[1]) - 1;
+
+        // check if index is within bounds
+        if (index < 0 || index > TASK_LIMIT || TASKS[index] == null) {
+            System.out.println("    Error: task of specified index does not exist; use \"list\" to get index ");
+            printCorrectUsage(TaskType.DELETE);
+            return;
+        }
+
+        System.out.print("    Task: ");
+        System.out.print(TASKS[index].toString());
+        TASKS[index] = null;
+        TASK_COUNT--;
+        System.out.println(" deleted");
+
+
+    }
+
     public static String[] getUserInput() {
         // splits inputs into first word and everything else
         String[] splitInput = SCANNER.nextLine().split(" ", 2);
@@ -254,6 +300,9 @@ public class Jord {
             break;
         case "deadline" :
             addDeadline(input); // incomplete
+            break;
+        case "delete":
+            deleteTask(input);
             break;
         default:
             unknownInput(command);
