@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 public class Jord {
 
-    private static final int TASK_LIMIT = 100;
     public static final String WELCOME_MESSAGE = "    Hello! I'm Jord\n    What can I do for you?";
     public static final String BYE_MESSAGE = "    Bye, see you again!";
 
@@ -68,8 +67,6 @@ public class Jord {
             System.out.print("    " + (i+1) + ". ");
             System.out.println(TASKS.get(i).toString());
         }
-
-        // todo: change to system.out.println(TASKS);
     }
 
     public static void printTask(int index) {
@@ -219,10 +216,12 @@ public class Jord {
             isDeleteTaskInputValid(input);
             int index = Integer.parseInt(input[1]) - 1;
 
-//            System.out.print(TASKS.get(index).toString());
+            Task temp = TASKS.get(index);
             TASKS.remove(index);
             TASK_COUNT--;
-            System.out.println(" Task deleted");
+            System.out.println("    Deleted task:");
+            System.out.println("      " + temp);
+            System.out.println("    You have " + TASKS.size() + " task(s) left");
             return;
         } catch (MissingDescriptionException e) {
             System.out.println("    Error: missing task index");
