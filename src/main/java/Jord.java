@@ -1,3 +1,5 @@
+import jord.exception.MissingArgumentException;
+import jord.exception.MissingDescriptionException;
 import tasks.*;
 
 import java.util.Scanner;
@@ -103,7 +105,7 @@ public class Jord {
         printCorrectUsage(TaskType.MARK);
     }
 
-    public static void isTaskInputValid(String[] input) throws MissingDescriptionException{
+    public static void isTaskInputValid(String[] input) throws MissingDescriptionException {
         if (input.length < 2 || input[1].trim().isEmpty()) {
             throw new MissingDescriptionException();
         }
