@@ -3,6 +3,7 @@ import jord.exception.MissingDescriptionException;
 import tasks.*;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Jord {
 
@@ -10,7 +11,7 @@ public class Jord {
     public static final String WELCOME_MESSAGE = "    Hello! I'm Jord\n    What can I do for you?";
     public static final String BYE_MESSAGE = "    Bye, see you again!";
 
-    private static Task[] TASKS = new Task[TASK_LIMIT]; // todo: change to ArrayList
+    private static ArrayList<Task> TASKS = new ArrayList<Task>(); // todo: change to ArrayList
     private static int TASK_COUNT = 0;
     private static final Scanner SCANNER = new Scanner(System.in);
 
@@ -61,17 +62,18 @@ public class Jord {
     public static void listTasks() {
         if (TASK_COUNT == 0) {
             System.out.println(LIST_EMPTY_MESSAGE);
+            return;
         }
-        int i = 0;
-        while (TASKS[i] != null) {
+        for (int i = 0; i < TASKS.size(); i++) {
             System.out.print("    " + (i+1) + ". ");
-            System.out.println(TASKS[i].toString());
-            i++;
+            System.out.println(TASKS.get(i).toString());
         }
+
+        // todo: change to system.out.println(TASKS);
     }
 
     public static void printTask(int index) {
-        System.out.println("    " + TASKS[index].toString());
+        System.out.println("    " + TASKS.get(index).toString());
         System.out.println("    Total tasks: " + (index + 1));
     }
 
@@ -87,11 +89,11 @@ public class Jord {
             int index = Integer.parseInt(input[1]) - 1;
             boolean isMark = !input[0].contains("un");
 
-            TASKS[index].setMarked(isMark);
+            TASKS.get(index).setMarked(isMark);
             System.out.println(isMark ? MARKED_COMPLETE
                     : MARKED_INCOMPLETE);
             System.out.print("    ");
-            System.out.println(TASKS[index].toString());
+            System.out.println(TASKS.get(index).toString());
             return;
 
         } catch (NumberFormatException e) {
@@ -114,7 +116,7 @@ public class Jord {
     public static void addTask(String[] input) {
         try {
             isTaskInputValid(input);
-            TASKS[TASK_COUNT] = new Task(input[1]);
+            TASKS.add(new Task(input[1]));
             System.out.println("    added task:");
             printTask(TASK_COUNT);
             TASK_COUNT++;
@@ -136,7 +138,7 @@ public class Jord {
         try {
             isTodoInputValid(input);
 
-            TASKS[TASK_COUNT] = new Todo(input[1]);
+            TASKS.add(new Todo(input[1]));
             System.out.println("    added todo:");
             printTask(TASK_COUNT);
             TASK_COUNT++;
@@ -162,7 +164,7 @@ public class Jord {
             String[] splitInput = input[1].split("/from|/to");
 
             // checks if /from and /to times are empty or not, done here instead of checker to avoid double work
-            TASKS[TASK_COUNT] = new Event(splitInput[0].trim(), splitInput[1].trim(), splitInput[2].trim());
+            TASKS.add(new Event(splitInput[0].trim(), splitInput[1].trim(), splitInput[2].trim()));
             System.out.println("    added task:");
             printTask(TASK_COUNT);
             TASK_COUNT++;
@@ -191,7 +193,7 @@ public class Jord {
             isDeadlineInputValid(input);
 
             String[] inputs = input[1].split("/by");
-            TASKS[TASK_COUNT] = new Deadline(inputs[0].trim(), inputs[1].trim());
+            TASKS.add(new Deadline(inputs[0].trim(), inputs[1].trim()));
             System.out.println("    Added deadline:");
             printTask(TASK_COUNT);
             TASK_COUNT++;
@@ -217,8 +219,8 @@ public class Jord {
             isDeleteTaskInputValid(input);
             int index = Integer.parseInt(input[1]) - 1;
 
-            System.out.print(TASKS[index].toString());
-            TASKS[index] = null;
+//            System.out.print(TASKS.get(index).toString());
+            TASKS.remove(index);
             TASK_COUNT--;
             System.out.println(" Task deleted");
             return;
@@ -286,6 +288,7 @@ public class Jord {
     public static void main(String[] args) {
         printLogo();
         System.out.println(WELCOME_MESSAGE);
+
         while (true) {
             String[] userInput = getUserInput();
             processInput(userInput);
