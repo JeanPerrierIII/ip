@@ -4,6 +4,11 @@ import tasks.*;
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+
 
 public class Jord {
 
@@ -11,8 +16,9 @@ public class Jord {
     public static final String BYE_MESSAGE = "    Bye, see you again!";
 
     private static ArrayList<Task> TASKS = new ArrayList<Task>(); // todo: change to ArrayList
-    private static int TASK_COUNT = 0;
     private static final Scanner SCANNER = new Scanner(System.in);
+
+    private static final String SAVE_PATH = "data/jord.txt";
 
     public static final String TASK_CORRECT_USAGE = "add <task description>";
     public static final String TODO_CORRECT_USAGE = "todo <description>";
@@ -59,7 +65,7 @@ public class Jord {
     }
 
     public static void listTasks() {
-        if (TASK_COUNT == 0) {
+        if (TASKS.size() == 0) {
             System.out.println(LIST_EMPTY_MESSAGE);
             return;
         }
@@ -115,8 +121,7 @@ public class Jord {
             isTaskInputValid(input);
             TASKS.add(new Task(input[1]));
             System.out.println("    added task:");
-            printTask(TASK_COUNT);
-            TASK_COUNT++;
+            printTask(TASKS.size()-1);
         } catch (MissingDescriptionException e) {
             System.out.println("    Error: missing task description");
         }
@@ -137,8 +142,8 @@ public class Jord {
 
             TASKS.add(new Todo(input[1]));
             System.out.println("    added todo:");
-            printTask(TASK_COUNT);
-            TASK_COUNT++;
+            printTask(TASKS.size()-1);
+
         } catch (MissingDescriptionException e) {
             System.out.println("    Error: missing todo description");
         }
@@ -163,8 +168,7 @@ public class Jord {
             // checks if /from and /to times are empty or not, done here instead of checker to avoid double work
             TASKS.add(new Event(splitInput[0].trim(), splitInput[1].trim(), splitInput[2].trim()));
             System.out.println("    added task:");
-            printTask(TASK_COUNT);
-            TASK_COUNT++;
+            printTask(TASKS.size()-1);
             return;
         } catch (IndexOutOfBoundsException e) {
             System.out.println("    Error: from and to duration cannot be empty");
@@ -192,8 +196,7 @@ public class Jord {
             String[] inputs = input[1].split("/by");
             TASKS.add(new Deadline(inputs[0].trim(), inputs[1].trim()));
             System.out.println("    Added deadline:");
-            printTask(TASK_COUNT);
-            TASK_COUNT++;
+            printTask(TASKS.size()-1);
             return;
         } catch (IndexOutOfBoundsException e) {
             System.out.println("    Error: deadline date cannot be empty");
@@ -218,7 +221,6 @@ public class Jord {
 
             Task temp = TASKS.get(index);
             TASKS.remove(index);
-            TASK_COUNT--;
             System.out.println("    Deleted task:");
             System.out.println("      " + temp);
             System.out.println("    You have " + TASKS.size() + " task(s) left");
@@ -241,6 +243,7 @@ public class Jord {
     }
 
     public static void exitJord() {
+        writeSave();
         System.out.print(BYE_MESSAGE);
         System.exit(0);
     }
@@ -284,10 +287,82 @@ public class Jord {
         }
     }
 
+    private static void writeSave() {
+        // overwrite save with current
+        System.out.println("    Saving tasks!");
+        try {
+            // clears the file
+            new FileWriter(SAVE_PATH, false).close();
+
+            FileWriter fw = new FileWriter(SAVE_PATH, true);
+            for (int i = 0; i < TASKS.size(); i++) {
+//                System.out.println("save text: " + TASKS.get(i).save());
+                fw.write(TASKS.get(i).save());
+                fw.write(System.lineSeparator());
+            }
+            fw.close();
+            System.out.println("    Save success!");
+        } catch (IOException e) {
+            System.out.println("    Saving failed! " + e.getMessage());
+        }
+    }
+
+    private static void loadSave(File save) throws FileNotFoundException {
+        Scanner s = new Scanner(save);
+        while (s.hasNext()) {
+            String tempStr = s.nextLine();
+            String[] splitInput = tempStr.split(";");
+            Task tempTask;
+            switch (splitInput[0]) {
+            case "T":
+                tempTask = new Todo();
+                break;
+            case "E":
+                tempTask= new Event();
+                break;
+            case "D":
+                tempTask = new Deadline();
+                break;
+            default:
+                tempTask = new Task();
+            }
+            tempTask.load(splitInput);
+            TASKS.add(tempTask);
+        }
+    }
+
+    private static void createSave(File save) {
+        System.out.println("    No save found. Creating!");
+
+        if (!save.getParentFile().exists()) {
+            save.getParentFile().mkdirs(); // create "data/" if missing
+        }
+
+        try {
+            save.createNewFile(); // returns bool
+        } catch (IOException e) {
+            System.out.println("    Error creating save!");
+            return;
+        }
+        System.out.println("    Save created!");
+    }
+
+    private static void saveSetup() {
+        // format: <task type>;<completion status>;<desc>;<date 1>;<date 2>\n
+        File save = new File(SAVE_PATH);
+        try {
+            loadSave(save);
+            System.out.println("    Save found and loaded!");
+        } catch (FileNotFoundException e) {
+            createSave(save);
+        }
+    }
+
     public static void main(String[] args) {
         printLogo();
         System.out.println(WELCOME_MESSAGE);
 
+        saveSetup();
         while (true) {
             String[] userInput = getUserInput();
             processInput(userInput);
