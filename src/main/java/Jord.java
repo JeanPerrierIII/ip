@@ -8,7 +8,7 @@ public class Jord {
     public static final String WELCOME_MESSAGE = "    Hello! I'm Jord\n    What can I do for you?";
     public static final String BYE_MESSAGE = "    Bye, see you again!";
 
-    private static Task[] TASKS = new Task[TASK_LIMIT];
+    private static Task[] TASKS = new Task[TASK_LIMIT]; // todo: change to ArrayList
     private static int TASK_COUNT = 0;
     private static final Scanner SCANNER = new Scanner(System.in);
 
@@ -73,191 +73,162 @@ public class Jord {
         System.out.println("    Total tasks: " + (index + 1));
     }
 
-    public static boolean isTaskMarkerInputValid(String[] input) {
+    public static void isTaskMarkerInputValid(String[] input) throws MissingArgumentException, NumberFormatException {
         if (input.length < 2 || input[1].trim().isEmpty() ) {
-            System.out.println("    Error: missing task index");
-            return false;
+            throw new MissingArgumentException();
         }
-        // task index is present, and not empty
-
-        try {
-            int i = Integer.parseInt(input[1]);
-        } catch (NumberFormatException e) {
-            // not an integer
-            System.out.println("    Error: index specified is not an integer");
-            return false;
-        }
-        // index specified is an integer
-        return true;
     }
 
     public static void taskMarker(String[] input) {
-        if (!isTaskMarkerInputValid(input)) {
-            printCorrectUsage(TaskType.MARK);
-            return;
-        }
-        int index = Integer.parseInt(input[1]) - 1;
-        boolean isMark = !input[0].contains("un");
+        try {
+            isTaskMarkerInputValid(input);
+            int index = Integer.parseInt(input[1]) - 1;
+            boolean isMark = !input[0].contains("un");
 
-        // check if index is within bounds
-        if (index < 0 || index > TASK_LIMIT || TASKS[index] == null) {
+            TASKS[index].setMarked(isMark);
+            System.out.println(isMark ? MARKED_COMPLETE
+                    : MARKED_INCOMPLETE);
+            System.out.print("    ");
+            System.out.println(TASKS[index].toString());
+            return;
+
+        } catch (NumberFormatException e) {
+            System.out.println("    Error: index specified is not an integer");
+        } catch (MissingArgumentException e) {
+            System.out.println("    Error: missing task index");
+        } catch (IndexOutOfBoundsException | NullPointerException e) {
             System.out.println("    Error: task of specified index does not exist; use \"list\" to get index ");
-            printCorrectUsage(TaskType.MARK);
-            return;
         }
-
-        TASKS[index].setMarked(isMark);
-        System.out.println(isMark ? MARKED_COMPLETE
-                : MARKED_INCOMPLETE);
-        System.out.print("    ");
-        System.out.println(TASKS[index].toString());
+        // print correct usage
+        printCorrectUsage(TaskType.MARK);
     }
 
-    public static boolean isTaskInputValid(String[] input) {
+    public static void isTaskInputValid(String[] input) throws MissingDescriptionException{
         if (input.length < 2 || input[1].trim().isEmpty()) {
-            System.out.println("    Error: missing task description");
-            return false;
+            throw new MissingDescriptionException();
         }
-        return true;
     }
 
     public static void addTask(String[] input) {
-        if (!isTaskInputValid(input)) {
-            printCorrectUsage(TaskType.TASK);
-            return;
+        try {
+            isTaskInputValid(input);
+            TASKS[TASK_COUNT] = new Task(input[1]);
+            System.out.println("    added task:");
+            printTask(TASK_COUNT);
+            TASK_COUNT++;
+        } catch (MissingDescriptionException e) {
+            System.out.println("    Error: missing task description");
         }
-        TASKS[TASK_COUNT] = new Task(input[1]);
-        System.out.println("    added task:");
-        printTask(TASK_COUNT);
-        TASK_COUNT++;
     }
 
 
 
-    public static boolean isTodoInputValid(String[] input) {
+    public static void isTodoInputValid(String[] input) {
         if (input.length < 2 || input[1].trim().isEmpty()) {
             System.out.println("    Error: missing todo description");
-            return false;
+            throw new MissingDescriptionException();
         }
-        return true;
     }
 
     public static void addTodo(String[] input) {
-        if (!isTodoInputValid(input)) {
-            printCorrectUsage(TaskType.TODO);
-            return;
+        try {
+            isTodoInputValid(input);
+
+            TASKS[TASK_COUNT] = new Todo(input[1]);
+            System.out.println("    added todo:");
+            printTask(TASK_COUNT);
+            TASK_COUNT++;
+        } catch (MissingDescriptionException e) {
+            System.out.println("    Error: missing todo description");
         }
-        TASKS[TASK_COUNT] = new Todo(input[1]);
-        System.out.println("    added todo:");
-        printTask(TASK_COUNT);
-        TASK_COUNT++;
     }
 
-    public static boolean isEventInputValid(String[] input) {
+    public static void isEventInputValid(String[] input) throws MissingArgumentException, MissingDescriptionException {
         if (input.length < 2 || input[1].trim().isEmpty()) {
-            System.out.println("    Error: missing event description");
-            return false;
+            throw new MissingDescriptionException();
         }
         // event description exists
         if (!(input[1].contains("/from") && input[1].contains("/to"))) {
-            System.out.println("    Error: missing event /from, /to arguments");
-            return false;
+            throw new MissingArgumentException();
         }
-        // "/from" and "/to" exists
-        return true;
     }
 
     public static void addEvent(String[] input) {
-        if (!isEventInputValid(input)) {
-            printCorrectUsage(TaskType.EVENT);
-            return;
-        }
-        // parse input into description, from and to date
-        String[] splitInput = input[1].split("/from|/to");
-
-        // checks if /from and /to times are empty or not, done here instead of checker to avoid double work
         try {
+            isEventInputValid(input);
+            // parse input into description, from and to date
+            String[] splitInput = input[1].split("/from|/to");
+
+            // checks if /from and /to times are empty or not, done here instead of checker to avoid double work
             TASKS[TASK_COUNT] = new Event(splitInput[0].trim(), splitInput[1].trim(), splitInput[2].trim());
             System.out.println("    added task:");
             printTask(TASK_COUNT);
             TASK_COUNT++;
+            return;
         } catch (IndexOutOfBoundsException e) {
             System.out.println("    Error: from and to duration cannot be empty");
-            printCorrectUsage(TaskType.EVENT);
-
+        } catch (MissingDescriptionException e) {
+            System.out.println("    Error: missing event description");
+        } catch (MissingArgumentException e) {
+            System.out.println("    Error: missing event /from, /to arguments");
         }
+        printCorrectUsage(TaskType.EVENT);
     }
 
-    public static boolean isDeadlineInputValid(String[] input) {
+    public static void isDeadlineInputValid(String[] input) throws MissingDescriptionException, MissingArgumentException {
         if (input.length < 2 || input[1].trim().isEmpty()) {
-            System.out.println("    Error: missing deadline description");
-            return false;
-        }
+            throw new MissingDescriptionException();
+            }
         if (!input[1].contains("/by")) {
-            System.out.println("    Error: missing completion date");
-            return false;
+            throw new MissingArgumentException();
         }
-        return true;
     }
 
     public static void addDeadline(String[] input) {
-        if (!isDeadlineInputValid(input)){
-            printCorrectUsage(TaskType.DEADLINE);
-            return;
-        }
         try {
+            isDeadlineInputValid(input);
+
             String[] inputs = input[1].split("/by");
             TASKS[TASK_COUNT] = new Deadline(inputs[0].trim(), inputs[1].trim());
             System.out.println("    Added deadline:");
             printTask(TASK_COUNT);
             TASK_COUNT++;
+            return;
         } catch (IndexOutOfBoundsException e) {
             System.out.println("    Error: deadline date cannot be empty");
-            printCorrectUsage(TaskType.DEADLINE);
-
+        } catch (MissingDescriptionException e) {
+            System.out.println("    Error: missing deadline description");
+        } catch (MissingArgumentException e) {
+            System.out.println("    Error: missing completion date");
         }
+        printCorrectUsage(TaskType.DEADLINE);
     }
 
-    public static boolean isDeleteTaskInputValid(String[] input) {
+    public static void isDeleteTaskInputValid(String[] input) throws MissingDescriptionException {
         if (input.length < 2 || input[1].trim().isEmpty() ) {
-            System.out.println("    Error: missing task index");
-            return false;
+            throw new MissingDescriptionException();
         }
-        // task index is present, and not empty
-
-        try {
-            int i = Integer.parseInt(input[1]);
-        } catch (NumberFormatException e) {
-            // not an integer
-            System.out.println("    Error: index specified is not an integer");
-            return false;
-        }
-        // index specified is an integer
-        return true;
     }
 
     public static void deleteTask(String[] input) {
-        if (!isDeleteTaskInputValid(input)) {
-            printCorrectUsage(TaskType.DELETE);
+        try {
+            isDeleteTaskInputValid(input);
+            int index = Integer.parseInt(input[1]) - 1;
+
+            System.out.print(TASKS[index].toString());
+            TASKS[index] = null;
+            TASK_COUNT--;
+            System.out.println(" Task deleted");
             return;
-        }
-
-        int index = Integer.parseInt(input[1]) - 1;
-
-        // check if index is within bounds
-        if (index < 0 || index > TASK_LIMIT || TASKS[index] == null) {
+        } catch (MissingDescriptionException e) {
+            System.out.println("    Error: missing task index");
+        } catch (NumberFormatException e) {
+            System.out.println("    Error: index specified is not an integer");
+        } catch (IndexOutOfBoundsException | NullPointerException e) {
             System.out.println("    Error: task of specified index does not exist; use \"list\" to get index ");
-            printCorrectUsage(TaskType.DELETE);
-            return;
         }
 
-        System.out.print("    Task: ");
-        System.out.print(TASKS[index].toString());
-        TASKS[index] = null;
-        TASK_COUNT--;
-        System.out.println(" deleted");
-
-
+        printCorrectUsage(TaskType.DELETE);
     }
 
     public static String[] getUserInput() {
