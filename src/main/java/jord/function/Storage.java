@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Storage {
-    private String SAVE_PATH;
-    private File save;
+    private final String SAVE_PATH;
+    private final File save;
 
     public Storage(String filepath) {
         // replaces saveSetup

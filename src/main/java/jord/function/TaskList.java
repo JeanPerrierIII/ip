@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class TaskList {
 
-    private ArrayList<Task> TASKS;
+    private final ArrayList<Task> TASKS;
 
     public TaskList() {
         TASKS = new ArrayList<>();
