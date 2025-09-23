@@ -28,6 +28,10 @@ public class Task implements TaskIO {
         isMarked = marked;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public String toString() {
         return ("[" + (isMarked ? "X] " : " ] ") + description);
     }

@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,7 +18,6 @@ public class Storage {
     private final File save;
 
     public Storage(String filepath) {
-        // replaces saveSetup
         SAVE_PATH = filepath;
         save = new File(SAVE_PATH);
 
@@ -49,6 +49,7 @@ public class Storage {
         ArrayList<Task> TASKS = new ArrayList<>();
         // save was instanced when Storage() is called
         Scanner s = new Scanner(save);
+        int errorCount = 0;
         while (s.hasNext()) {
             String tempStr = s.nextLine();
             String[] splitInput = tempStr.split(";");
@@ -66,8 +67,15 @@ public class Storage {
             default:
                 tempTask = new Task();
             }
-            tempTask.load(splitInput);
-            TASKS.add(tempTask);
+            try {
+                tempTask.load(splitInput);
+                TASKS.add(tempTask);
+            } catch (DateTimeParseException e) {
+                errorCount++;
+            }
+        }
+        if (errorCount > 0) {
+            System.out.println("    A total of " + errorCount + " corrupted tasks were found and skipped!");
         }
         return TASKS;
     }

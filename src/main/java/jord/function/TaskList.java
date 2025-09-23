@@ -4,6 +4,8 @@ import jord.exception.MissingArgumentException;
 import jord.exception.MissingDescriptionException;
 import tasks.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class TaskList {
@@ -34,8 +36,6 @@ public class TaskList {
         System.out.println("    Total tasks: " + (index + 1));
     }
 
-
-
     public void taskMarker(String[] input) {
         try {
             Parser.isTaskMarkerInputValid(input);
@@ -60,8 +60,6 @@ public class TaskList {
         Parser.printCorrectUsage(CommandType.MARK);
     }
 
-
-
     public void addTask(String[] input) {
         try {
             Parser.isTaskInputValid(input);
@@ -72,10 +70,6 @@ public class TaskList {
             System.out.println("    Error: missing task description");
         }
     }
-
-
-
-
 
     public void addTodo(String[] input) {
         try {
@@ -90,8 +84,6 @@ public class TaskList {
         }
     }
 
-
-
     public void addEvent(String[] input) {
         try {
             Parser.isEventInputValid(input);
@@ -99,7 +91,10 @@ public class TaskList {
             String[] splitInput = input[1].split("/from|/to");
 
             // checks if /from and /to times are empty or not, done here instead of checker to avoid double work
-            TASKS.add(new Event(splitInput[0].trim(), splitInput[1].trim(), splitInput[2].trim()));
+            // parse splitInput[2:1] to date and time format
+            LocalDateTime fromDate = Parser.parseDateTime(splitInput[1].trim());
+            LocalDateTime toDate = Parser.parseDateTime(splitInput[2].trim());
+            TASKS.add(new Event(splitInput[0].trim(), fromDate, toDate));
             System.out.println("    added task:");
             printTask(TASKS.size()-1);
             return;
@@ -109,18 +104,19 @@ public class TaskList {
             System.out.println("    Error: missing event description");
         } catch (MissingArgumentException e) {
             System.out.println("    Error: missing event /from, /to arguments");
+        } catch (DateTimeParseException e) {
+            System.out.println("    Error: date format incorrect, use yyyy/mm/dd hhmm");
         }
         Parser.printCorrectUsage(CommandType.EVENT);
     }
-
-
 
     public void addDeadline(String[] input) {
         try {
             Parser.isDeadlineInputValid(input);
 
             String[] inputs = input[1].split("/by");
-            TASKS.add(new Deadline(inputs[0].trim(), inputs[1].trim()));
+            LocalDateTime byDate = Parser.parseDateTime(inputs[1].trim());
+            TASKS.add(new Deadline(inputs[0].trim(), byDate));
             System.out.println("    Added deadline:");
             printTask(TASKS.size()-1);
             return;
@@ -130,11 +126,11 @@ public class TaskList {
             System.out.println("    Error: missing deadline description");
         } catch (MissingArgumentException e) {
             System.out.println("    Error: missing completion date");
+        } catch (DateTimeParseException e) {
+            System.out.println("    Error: date format incorrect, use yyyy/mm/dd hhmm");
         }
         Parser.printCorrectUsage(CommandType.DEADLINE);
     }
-
-
 
     public void deleteTask(String[] input) {
         try {
@@ -154,8 +150,26 @@ public class TaskList {
         } catch (IndexOutOfBoundsException | NullPointerException e) {
             System.out.println("    Error: task of specified index does not exist; use \"list\" to get index ");
         }
-
         Parser.printCorrectUsage(CommandType.DELETE);
+    }
+
+    public void findTask(String[] searchString) {
+        try {
+            Parser.isFindTaskInputValid(searchString);
+            System.out.println("    Here are the tasks matching the provided description");
+            int count = 0;
+            for (Task task : TASKS) {
+                if (task.getDescription().contains(searchString[1])) {
+                    System.out.println("    " + task);
+                    count++;
+                }
+            }
+            if (count == 0) {
+                System.out.println("    No tasks matching the description was found!");
+            }
+        } catch (MissingDescriptionException | ArrayIndexOutOfBoundsException e) {
+            System.out.println("    Error: search description cannot be empty!");
+        }
     }
 
     public ArrayList<Task> getTasks() {

@@ -1,19 +1,23 @@
 package tasks;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 
 public class Deadline extends Task {
 
-    protected String by = null;
+    protected LocalDateTime by = null;
 
     public Deadline() {}
-    public Deadline(String description, String by) {
+    public Deadline(String description, LocalDateTime by) {
         super(description);
         this.by = by;
     }
 
     @Override
-    public void load(String[] splitInput) {
+    public void load(String[] splitInput) throws DateTimeParseException {
         super.load(splitInput);
-        by = splitInput[3];
+        by = LocalDateTime.parse(splitInput[3]);
     }
 
     @Override
@@ -23,6 +27,7 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + by + ")";
+        return "[D]" + super.toString() + " (by: "
+                + by.format(DateTimeFormatter.ofPattern("MMM d yyyy, HHmm")) + "H)";
     }
 }

@@ -4,6 +4,9 @@ import jord.exception.MissingArgumentException;
 import jord.exception.MissingDescriptionException;
 import tasks.CommandType;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class Parser {
@@ -77,12 +80,28 @@ public class Parser {
         }
     }
 
+    public static void isFindTaskInputValid(String[] input) throws MissingDescriptionException {
+        if (input[1].isEmpty()) {
+            throw new MissingDescriptionException();
+        }
+    }
+
+    public static LocalDateTime parseDateTime(String dateAndTime) throws DateTimeParseException {
+        // append 00:00 to the end of the string if no timing is provided
+        if (!dateAndTime.contains(" ")) { // no space, likely no timing
+            dateAndTime += " 0000";
+        }
+        // the only accepted format is ISO and whatever is written below
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HHmm");
+        return LocalDateTime.parse(dateAndTime, formatter);
+    }
+
     public static void unknownInput(String input) {
         System.out.println("    Unknown command: " + input);
     }
 
     public static boolean isExit(String input) {
-        return (input.trim().toLowerCase().equals("bye")) ? true : false;
+        return (input.trim().toLowerCase().equals("bye"));
     }
 
     public static void processInput(String[] input, TaskList tasks) {
@@ -114,6 +133,9 @@ public class Parser {
         case "delete":
             tasks.deleteTask(input);
             break;
+//        case "find":
+//            tasks.findTask(input);
+//            break;
         default:
             unknownInput(command);
             break;
