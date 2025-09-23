@@ -133,9 +133,9 @@ public class Parser {
         case "delete":
             tasks.deleteTask(input);
             break;
-//        case "find":
-//            tasks.findTask(input);
-//            break;
+        case "find":
+            tasks.findTask(input);
+            break;
         default:
             unknownInput(command);
             break;

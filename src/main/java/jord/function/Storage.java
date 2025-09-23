@@ -32,9 +32,9 @@ public class Storage {
             new FileWriter(SAVE_PATH, false).close();
 
             FileWriter fw = new FileWriter(SAVE_PATH, true);
-            for (int i = 0; i < TASKS.size(); i++) {
+            for (Task task : TASKS) {
 //                System.out.println("save text: " + TASKS.get(i).save());
-                fw.write(TASKS.get(i).save());
+                fw.write(task.save());
                 fw.write(System.lineSeparator());
             }
             fw.close();
