@@ -153,6 +153,7 @@ public class TaskList {
         Parser.printCorrectUsage(CommandType.DELETE);
     }
 
+
     public void findTask(String[] searchString) {
         try {
             Parser.isFindTaskInputValid(searchString);

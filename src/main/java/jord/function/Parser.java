@@ -13,6 +13,10 @@ public class Parser {
 
     public static final Scanner SCANNER = new Scanner(System.in);
 
+    /**
+     * Prints out the correct usage for the given command
+     * @param type command type to print the correct usage of
+     */
     public static void printCorrectUsage(CommandType type) {
         System.out.print("    Correct usage: ");
         switch (type) {
@@ -55,7 +59,8 @@ public class Parser {
         }
     }
 
-    public static void isEventInputValid(String[] input) throws MissingArgumentException, MissingDescriptionException {
+    public static void isEventInputValid(String[] input)
+            throws MissingArgumentException, MissingDescriptionException {
         if (input.length < 2 || input[1].trim().isEmpty()) {
             throw new MissingDescriptionException();
         }
@@ -65,7 +70,8 @@ public class Parser {
         }
     }
 
-    public static void isDeadlineInputValid(String[] input) throws MissingDescriptionException, MissingArgumentException {
+    public static void isDeadlineInputValid(String[] input)
+            throws MissingDescriptionException, MissingArgumentException {
         if (input.length < 2 || input[1].trim().isEmpty()) {
             throw new MissingDescriptionException();
         }
@@ -86,6 +92,12 @@ public class Parser {
         }
     }
 
+    /**
+     * Parses date and time string provided by user into date and time format
+     * @param dateAndTime user provided string
+     * @return parsed user provided date and time into LocalDateTime format
+     * @throws DateTimeParseException when the provided date and time does not match the expected formatting
+     */
     public static LocalDateTime parseDateTime(String dateAndTime) throws DateTimeParseException {
         // append 00:00 to the end of the string if no timing is provided
         if (!dateAndTime.contains(" ")) { // no space, likely no timing
@@ -104,6 +116,11 @@ public class Parser {
         return (input.trim().toLowerCase().equals("bye"));
     }
 
+    /**
+     * Calls the appropriate command function, does nothing else
+     * @param input array of the user's input, split into the first word and the rest of the input
+     * @param tasks TaskList object that the command is called on
+     */
     public static void processInput(String[] input, TaskList tasks) {
         String command = input[0].trim().toLowerCase();
         switch (command) {
@@ -142,6 +159,11 @@ public class Parser {
         }
     }
 
+    /**
+     * Scans the command line input, and then splits it into an array of size 2
+     * The first word and the rest of the input
+     * @return String array of the split input
+     */
     public static String[] getUserInput() {
         // splits inputs into first word and everything else
         String[] splitInput = SCANNER.nextLine().split(" ", 2);

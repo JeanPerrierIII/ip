@@ -23,6 +23,10 @@ public class Storage {
 
     }
 
+    /**
+     * Takes in task list object and writes it to the save
+     * @param taskList task list object to write to the save
+     */
     public void writeSave(TaskList taskList) {
         ArrayList<Task> TASKS = taskList.getTasks();
         // overwrite save with current
@@ -44,6 +48,13 @@ public class Storage {
         }
     }
 
+    /**
+     * Attempts to load save from the stored filepath when Storage object was initialised
+     * Returns and array list of type task storing the stored tasks within the save
+     * If no save file is found, an exception is thrown
+     * @return
+     * @throws FileNotFoundException
+     */
     public ArrayList<Task> loadSave() throws FileNotFoundException {
         // return ArrayList of the tasks
         ArrayList<Task> TASKS = new ArrayList<>();
