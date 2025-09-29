@@ -91,6 +91,10 @@ public class Storage {
         return TASKS;
     }
 
+    /**
+     * Attempts to create a save at the location specified when the storage object was initialised
+     * If the function fails to create a save, an error message will be printed and the function will return
+     */
     public void createSave() {
         if (!save.getParentFile().exists()) {
             save.getParentFile().mkdirs(); // create "data/" if missing
@@ -103,8 +107,4 @@ public class Storage {
         }
         System.out.println("    Save created!");
     }
-
-//    public static void saveSetup() {
-//        // format: <task type>;<completion status>;<desc>;<date 1>;<date 2>\n
-//    }
 }
