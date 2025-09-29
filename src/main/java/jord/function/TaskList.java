@@ -155,22 +155,7 @@ public class TaskList {
 
 
     public void findTask(String[] searchString) {
-        try {
-            Parser.isFindTaskInputValid(searchString);
-            System.out.println("    Here are the tasks matching the provided description");
-            int count = 0;
-            for (Task task : TASKS) {
-                if (task.getDescription().contains(searchString[1])) {
-                    System.out.println("    " + task);
-                    count++;
-                }
-            }
-            if (count == 0) {
-                System.out.println("    No tasks matching the description was found!");
-            }
-        } catch (MissingDescriptionException | ArrayIndexOutOfBoundsException e) {
-            System.out.println("    Error: search description cannot be empty!");
-        }
+        System.out.println("    This function has not been implemented yet!");
     }
 
     public ArrayList<Task> getTasks() {
