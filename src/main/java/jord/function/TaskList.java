@@ -143,7 +143,7 @@ public class TaskList {
             System.out.println("      " + temp);
             System.out.println("    You have " + TASKS.size() + " task(s) left");
             return;
-        } catch (MissingDescriptionException e) {
+        } catch (MissingArgumentException e) {
             System.out.println("    Error: missing task index");
         } catch (NumberFormatException e) {
             System.out.println("    Error: index specified is not an integer");
