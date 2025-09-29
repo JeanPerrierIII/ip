@@ -26,13 +26,13 @@ public class Jord {
         }
     }
 
-    public void exit() {
+    private void exit() {
         storage.writeSave(tasks);
         ui.printGoodbye();
         System.exit(0);
     }
 
-    public void run() {
+    private void run() {
         ui.printWelcome();
         boolean isExit = false;
         while (!isExit) {

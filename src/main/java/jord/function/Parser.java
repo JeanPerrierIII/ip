@@ -40,25 +40,47 @@ public class Parser {
         }
     }
 
+    /**
+     * checks if the input for the mark/unmark command is correct
+     * @param input the input given to the mark/unmark function
+     * @throws MissingArgumentException thrown if missing arguments
+     * @throws NumberFormatException thrown if no index was entered
+     */
     public static void isTaskMarkerInputValid(String[] input) throws MissingArgumentException, NumberFormatException {
         if (input.length < 2 || input[1].trim().isEmpty() ) {
             throw new MissingArgumentException();
         }
     }
 
+    /**
+     * Checks if the input for add command is correct
+     * @param input user input given to the add task function
+     * @throws MissingDescriptionException thrown if missing a description
+     */
     public static void isTaskInputValid(String[] input) throws MissingDescriptionException {
         if (input.length < 2 || input[1].trim().isEmpty()) {
             throw new MissingDescriptionException();
         }
     }
 
-    public static void isTodoInputValid(String[] input) {
+    /**
+     * Checks if the input for todo command is correct
+     * @param input user input given to the todo function
+     * @throws MissingDescriptionException thrown if missing a description
+     */
+    public static void isTodoInputValid(String[] input) throws MissingDescriptionException{
         if (input.length < 2 || input[1].trim().isEmpty()) {
             System.out.println("    Error: missing todo description");
             throw new MissingDescriptionException();
         }
     }
 
+    /**
+     * Checks if the input for the event command is correct
+     * @param input user input given to event function
+     * @throws MissingArgumentException thrown if missing arguments such as /from or /to
+     * @throws MissingDescriptionException thrown if missing description
+     */
     public static void isEventInputValid(String[] input)
             throws MissingArgumentException, MissingDescriptionException {
         if (input.length < 2 || input[1].trim().isEmpty()) {
@@ -70,6 +92,12 @@ public class Parser {
         }
     }
 
+    /**
+     * Check if the input for the deadline command is correct
+     * @param input user input to deadline function
+     * @throws MissingArgumentException thrown if missing arguments such as /by
+     * @throws MissingDescriptionException thrown if missing description
+     */
     public static void isDeadlineInputValid(String[] input)
             throws MissingDescriptionException, MissingArgumentException {
         if (input.length < 2 || input[1].trim().isEmpty()) {
@@ -80,12 +108,22 @@ public class Parser {
         }
     }
 
-    public static void isDeleteTaskInputValid(String[] input) throws MissingDescriptionException {
+    /**
+     * Checks if the input for the delete function is correct
+     * @param input user input to delete function
+     * @throws MissingArgumentException thrown if no index for task is provided
+     */
+    public static void isDeleteTaskInputValid(String[] input) throws MissingArgumentException {
         if (input.length < 2 || input[1].trim().isEmpty() ) {
-            throw new MissingDescriptionException();
+            throw new MissingArgumentException();
         }
     }
 
+    /**
+     * Checks if the input to the find function is correct
+     * @param input user input to find function
+     * @throws MissingDescriptionException thrown if no description is provided to search for
+     */
     public static void isFindTaskInputValid(String[] input) throws MissingDescriptionException {
         if (input[1].isEmpty()) {
             throw new MissingDescriptionException();
