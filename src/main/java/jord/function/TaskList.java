@@ -57,7 +57,7 @@ public class TaskList {
             System.out.println("    Error: task of specified index does not exist; use \"list\" to get index ");
         }
         // print correct usage
-        Parser.printCorrectUsage(CommandType.MARK);
+        Ui.printCorrectUsage(CommandType.MARK, false);
     }
 
     public void addTask(String[] input) {
@@ -107,7 +107,7 @@ public class TaskList {
         } catch (DateTimeParseException e) {
             System.out.println("    Error: date format incorrect, use yyyy/mm/dd hhmm");
         }
-        Parser.printCorrectUsage(CommandType.EVENT);
+        Ui.printCorrectUsage(CommandType.EVENT, false);
     }
 
     public void addDeadline(String[] input) {
@@ -129,7 +129,7 @@ public class TaskList {
         } catch (DateTimeParseException e) {
             System.out.println("    Error: date format incorrect, use yyyy/mm/dd hhmm");
         }
-        Parser.printCorrectUsage(CommandType.DEADLINE);
+        Ui.printCorrectUsage(CommandType.DEADLINE, false);
     }
 
     public void deleteTask(String[] input) {
@@ -150,7 +150,7 @@ public class TaskList {
         } catch (IndexOutOfBoundsException | NullPointerException e) {
             System.out.println("    Error: task of specified index does not exist; use \"list\" to get index ");
         }
-        Parser.printCorrectUsage(CommandType.DELETE);
+        Ui.printCorrectUsage(CommandType.DELETE, false);
     }
 
 

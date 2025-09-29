@@ -10,17 +10,15 @@ public class Jord {
     private static final String DEFAULT_SAVE_PATH = "data/jord.txt";
     private final Storage storage;
     private TaskList tasks;
-    private final Ui ui;
 
     public Jord(String filepath) {
-        ui = new Ui();
         storage = new Storage(filepath);
         try {
             tasks = new TaskList(storage.loadSave());
-            ui.saveFound();
+            Ui.printSaveFound();
         } catch (FileNotFoundException e) {
             // display loading error
-            ui.noSave();
+            Ui.printNoSave();
             storage.createSave();
             tasks = new TaskList();
         }
@@ -28,12 +26,12 @@ public class Jord {
 
     private void exit() {
         storage.writeSave(tasks);
-        ui.printGoodbye();
+        Ui.printGoodbye();
         System.exit(0);
     }
 
     private void run() {
-        ui.printWelcome();
+        Ui.printWelcome();
         boolean isExit = false;
         while (!isExit) {
             String[] userInput = Parser.getUserInput();

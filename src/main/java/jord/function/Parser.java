@@ -13,32 +13,7 @@ public class Parser {
 
     public static final Scanner SCANNER = new Scanner(System.in);
 
-    /**
-     * Prints out the correct usage for the given command
-     * @param type command type to print the correct usage of
-     */
-    public static void printCorrectUsage(CommandType type) {
-        System.out.print("    Correct usage: ");
-        switch (type) {
-        case TASK:
-            System.out.println(Ui.TASK_CORRECT_USAGE);
-            break;
-        case TODO:
-            System.out.println(Ui.TODO_CORRECT_USAGE);
-            break;
-        case EVENT:
-            System.out.println(Ui.EVENT_CORRECT_USAGE);
-            break;
-        case DEADLINE:
-            System.out.println(Ui.DEADLINE_CORRECT_USAGE);
-            break;
-        case MARK:
-            System.out.println(Ui.MARK_CORRECT_USAGE);
-            break;
-        case DELETE:
-            System.out.println(Ui.DELETE_CORRECT_USAGE);
-        }
-    }
+
 
     /**
      * checks if the input for the mark/unmark command is correct
@@ -190,6 +165,9 @@ public class Parser {
             break;
         case "find":
             tasks.findTask(input);
+            break;
+        case "help":
+            Ui.printHelp();
             break;
         default:
             unknownInput(command);
