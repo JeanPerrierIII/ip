@@ -9,11 +9,12 @@ _/      //         /        _/         /
     Use "help" to list available commands!
     What can I do for you?
     Error: missing task description
+    Correct usage: add <description>
     added task:
     [ ] generic task
     Total tasks: 1
     Error: missing todo description
-    Error: missing todo description
+    Correct usage: todo <description>
     added todo:
     [T][ ] test todo
     Total tasks: 2

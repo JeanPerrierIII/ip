@@ -68,6 +68,7 @@ public class TaskList {
             printTask(TASKS.size()-1);
         } catch (MissingDescriptionException e) {
             System.out.println("    Error: missing task description");
+            Ui.printCorrectUsage(CommandType.TASK, false);
         }
     }
 
@@ -81,6 +82,7 @@ public class TaskList {
 
         } catch (MissingDescriptionException e) {
             System.out.println("    Error: missing todo description");
+            Ui.printCorrectUsage(CommandType.TODO, false);
         }
     }
 
@@ -90,7 +92,6 @@ public class TaskList {
             // parse input into description, from and to date
             String[] splitInput = input[1].split("/from|/to");
 
-            // checks if /from and /to times are empty or not, done here instead of checker to avoid double work
             // parse splitInput[2:1] to date and time format
             LocalDateTime fromDate = Parser.parseDateTime(splitInput[1].trim());
             LocalDateTime toDate = Parser.parseDateTime(splitInput[2].trim());

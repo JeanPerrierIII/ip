@@ -7,7 +7,7 @@ public class Ui {
             "\n    Use \"help\" to list available commands!" +
             "\n    What can I do for you?";
     public static final String BYE_MESSAGE = "    Bye, see you again!";
-    public static final String TASK_CORRECT_USAGE = "add <task description>";
+    public static final String TASK_CORRECT_USAGE = "add <description>";
     public static final String TODO_CORRECT_USAGE = "todo <description>";
     public static final String EVENT_CORRECT_USAGE = "event <description> /from <date 1> /to <date 2>";
     public static final String DEADLINE_CORRECT_USAGE = "deadline <description> /by <date>";
