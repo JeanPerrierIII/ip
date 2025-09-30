@@ -241,6 +241,7 @@ If no save is found, Jord will automatically create a new one, and the following
 ## Command summary
 
 ---
+
 | Feature                 | Command                                           |
 |-------------------------|---------------------------------------------------|
 | View help               | `help`                                            |
@@ -254,8 +255,3 @@ If no save is found, Jord will automatically create a new one, and the following
 | Mark task as incomplete | `unmark <task_index>`                             |
 | Delete task             | `delete <task_index>`                             |
 | Exitting the program    | `bye`                                             |
-
-
-
-
-
