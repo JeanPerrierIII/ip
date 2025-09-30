@@ -45,7 +45,6 @@ public class Parser {
      */
     public static void isTodoInputValid(String[] input) throws MissingDescriptionException{
         if (input.length < 2 || input[1].trim().isEmpty()) {
-            System.out.println("    Error: missing todo description");
             throw new MissingDescriptionException();
         }
     }
