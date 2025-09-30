@@ -18,11 +18,11 @@ public class Ui {
             "    No tasks have been added, use todo, event or deadline to add some";
     public static final String DELETE_CORRECT_USAGE = "delete <index of task>";
 
-    public static final String LOGO = "    ______  _______    _______   ______  \n" +
+    public static final String LOGO = "    ______  _______    _______   ______\n" +
             "   /      \\/       \\\\//       \\_/      \\\\\n" +
             "  /       /        ///        /        //\n" +
-            "_/      //         /        _/         / \n" +
-            "\\______//\\________/\\____/___/\\________/  ";
+            "_/      //         /        _/         /\n" +
+            "\\______//\\________/\\____/___/\\________/";
 
 
     private static void printLogo() {

@@ -1,6 +1,20 @@
+add
+add generic task
+todo
 todo test todo
+deadline
+deadline test deadline /by
+deadline test deadline /by 0
 deadline test deadline /by 4th June 2034
+deadline test deadline /by 0000/00/00
+deadline test deadline /by 2034/06/04
+event
+event test event
+event test event /from
+event test event /from /to
+event test event /from 0 /to 0
 event test event /from 31 January 2017 6:00 pm /to 30 February 2026 1:00 am
+event test event /from 2017/01/31 1800 /to 2026/02/30 0100
 list
 mark 1
 mark 2
@@ -8,4 +22,6 @@ mark 3
 list
 unmark 2
 list
+delete 1
+find line
 bye

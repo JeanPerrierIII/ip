@@ -1,29 +1,75 @@
+    No save found. Creating!
+    Save created!
+    ______  _______    _______   ______
+   /      \/       \\//       \_/      \\
+  /       /        ///        /        //
+_/      //         /        _/         /
+\______//\________/\____/___/\________/
     Hello! I'm Jord
+    Use "help" to list available commands!
     What can I do for you?
+    Error: missing task description
+    added task:
+    [ ] generic task
+    Total tasks: 1
+    Error: missing todo description
+    Error: missing todo description
     added todo:
     [T][ ] test todo
-    Total tasks: 1
-    Added deadline:
-    [D][ ] test deadline (by: 4th June 2034)
     Total tasks: 2
-    added task:
-    [E][ ] test event (from: 31 January 2017 6:00 pm  to: 30 February 2026 1:00 am)
+    Error: missing deadline description
+    Correct usage: deadline <description> /by <date>
+    Error: deadline date cannot be empty
+    Correct usage: deadline <description> /by <date>
+    Error: date format incorrect, use yyyy/mm/dd hhmm
+    Correct usage: deadline <description> /by <date>
+    Error: date format incorrect, use yyyy/mm/dd hhmm
+    Correct usage: deadline <description> /by <date>
+    Error: date format incorrect, use yyyy/mm/dd hhmm
+    Correct usage: deadline <description> /by <date>
+    Added deadline:
+    [D][ ] test deadline (by: Jun 4 2034, 0000H)
     Total tasks: 3
-    1. [T][ ] test todo
-    2. [D][ ] test deadline (by: 4th June 2034)
-    3. [E][ ] test event (from: 31 January 2017 6:00 pm  to: 30 February 2026 1:00 am)
+    Error: missing event description
+    Correct usage: event <description> /from <date 1> /to <date 2>
+    Error: missing event /from, /to arguments
+    Correct usage: event <description> /from <date 1> /to <date 2>
+    Error: missing event /from, /to arguments
+    Correct usage: event <description> /from <date 1> /to <date 2>
+    Error: date format incorrect, use yyyy/mm/dd hhmm
+    Correct usage: event <description> /from <date 1> /to <date 2>
+    Error: date format incorrect, use yyyy/mm/dd hhmm
+    Correct usage: event <description> /from <date 1> /to <date 2>
+    Error: date format incorrect, use yyyy/mm/dd hhmm
+    Correct usage: event <description> /from <date 1> /to <date 2>
+    added task:
+    [E][ ] test event (from: Jan 31 2017, 1800H to: Feb 28 2026, 0100H)
+    Total tasks: 4
+    1. [ ] generic task
+    2. [T][ ] test todo
+    3. [D][ ] test deadline (by: Jun 4 2034, 0000H)
+    4. [E][ ] test event (from: Jan 31 2017, 1800H to: Feb 28 2026, 0100H)
+    The following task has been marked complete
+    [X] generic task
     The following task has been marked complete
     [T][X] test todo
     The following task has been marked complete
-    [D][X] test deadline (by: 4th June 2034)
-    The following task has been marked complete
-    [E][X] test event (from: 31 January 2017 6:00 pm  to: 30 February 2026 1:00 am)
-    1. [T][X] test todo
-    2. [D][X] test deadline (by: 4th June 2034)
-    3. [E][X] test event (from: 31 January 2017 6:00 pm  to: 30 February 2026 1:00 am)
+    [D][X] test deadline (by: Jun 4 2034, 0000H)
+    1. [X] generic task
+    2. [T][X] test todo
+    3. [D][X] test deadline (by: Jun 4 2034, 0000H)
+    4. [E][ ] test event (from: Jan 31 2017, 1800H to: Feb 28 2026, 0100H)
     The following task has been marked incomplete
-    [D][ ] test deadline (by: 4th June 2034)
-    1. [T][X] test todo
-    2. [D][ ] test deadline (by: 4th June 2034)
-    3. [E][X] test event (from: 31 January 2017 6:00 pm  to: 30 February 2026 1:00 am)
+    [T][ ] test todo
+    1. [X] generic task
+    2. [T][ ] test todo
+    3. [D][X] test deadline (by: Jun 4 2034, 0000H)
+    4. [E][ ] test event (from: Jan 31 2017, 1800H to: Feb 28 2026, 0100H)
+    Deleted task:
+      [X] generic task
+    You have 3 task(s) left
+    Here are the tasks matching the provided description
+    [D][X] test deadline (by: Jun 4 2034, 0000H)
+    Saving tasks!
+    Save success!
     Bye, see you again!
